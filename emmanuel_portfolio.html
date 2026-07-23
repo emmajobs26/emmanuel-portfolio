@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmanuel Femi Boluade — AI Evaluator & Technical Writer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #c05621;
+            --accent-light: #dd6b20;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --text: #1a202c;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --danger: #e53e3e;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --primary: #60a5fa;
+            --primary-light: #93c5fd;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            transition: var(--transition);
+        }
+        [data-theme="dark"] .navbar {
+            background: rgba(15,23,42,0.85);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-logo i { color: var(--accent); }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .btn-nav {
+            padding: 0.5rem 1.2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .btn-nav:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+        }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(26,54,93,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(192,86,33,0.06) 0%, transparent 50%);
+        }
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(26,54,93,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26,54,93,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 70%);
+        }
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: rgba(192,86,33,0.1);
+            color: var(--accent);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s ease;
+        }
+        .hero-badge i { font-size: 0.8rem; }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+        .hero-tagline {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.6s ease 0.4s both;
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.3rem;
+        }
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.5s both;
+        }
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 15px rgba(26,54,93,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26,54,93,0.4);
+        }
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .hero-contact-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.6s both;
+        }
+        .hero-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .hero-contact-item:hover { color: var(--accent); }
+        .hero-contact-item i {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+n            to { opacity: 1; transform: translateY(0); }
+        }
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-label {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(192,86,33,0.1);
+            color: var(--accent);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.8rem;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+        .section-desc {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        .about-card {
+            background: var(--card);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+        .about-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(26,54,93,0.25);
+        }
+        .about-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .about-card .role {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .about-card .location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .about-languages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .lang-tag {
+            padding: 0.3rem 0.8rem;
+            background: var(--bg);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+        .about-text p {
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 1.2rem;
+            line-height: 1.8;
+        }
+        .about-highlights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .highlight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(192,86,33,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .highlight-item h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+        .highlight-item p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-light));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .skill-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+        .skill-card:hover::before { opacity: 1; }
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        .skill-name {
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .skill-name i {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        .skill-level {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .skill-bar {
+            height: 6px;
+            background: var(--bg);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .skill-fill {
+            height: 100%;
+            border-radius: 100px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0;
+        }
+        .skill-card.visible .skill-fill {
+            width: var(--width);
+        }
+        .skill-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+        }
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--primary));
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 70px;
+            padding-bottom: 2.5rem;
+        }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot {
+            position: absolute;
+            left: 15px;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--card);
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 0 4px var(--bg);
+        }
+        .timeline-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .timeline-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateX(4px);
+        }
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .timeline-company {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .timeline-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .timeline-meta i { font-size: 0.8rem; }
+        .timeline-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.6rem;
+            background: rgba(56,161,105,0.1);
+            color: var(--success);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .timeline-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .timeline-desc ul {
+            list-style: none;
+            padding: 0;
+        }
+        .timeline-desc li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: 0.4rem;
+        }
+        .timeline-desc li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        .project-card {
+            background: var(--card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+        .project-header {
+            padding: 1.8rem 1.8rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .project-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--border);
+            line-height: 1;
+        }
+        .project-tags {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .project-tag {
+            padding: 0.25rem 0.6rem;
+            background: var(--bg);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .project-tag.accent {
+            background: rgba(192,86,33,0.1);
+            color: var(--accent);
+        }
+        .project-body {
+            padding: 1rem 1.8rem 1.5rem;
+        }
+        .project-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .project-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .project-preview {
+            background: var(--bg);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+        }
+        .preview-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+        .preview-content {
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        .preview-table th {
+            text-align: left;
+            padding: 0.4rem 0.6rem;
+            background: var(--card);
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+        .preview-table td {
+            padding: 0.4rem 0.6rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+        .preview-table tr:last-child td { border-bottom: none; }
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .score-high { background: rgba(56,161,105,0.15); color: var(--success); }
+        .score-med { background: rgba(214,158,46,0.15); color: var(--warning); }
+        .score-low { background: rgba(229,62,62,0.15); color: var(--danger); }
+        .project-footer {
+            padding: 0 1.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .project-expand {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: var(--transition);
+        }
+        .project-card:hover .project-expand { gap: 0.6rem; }
+        .project-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-detail.open { max-height: 2000px; }
+        .project-detail-inner { padding: 0 1.8rem 1.8rem; }
+        .detail-section { margin-bottom: 1.5rem; }
+        .detail-section:last-child { margin-bottom: 0; }
+        .detail-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+        .detail-text {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.7;
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: var(--radius);
+            border-left: 3px solid var(--accent);
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .comparison-col {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: var(--radius);
+        }
+        .comparison-col h5 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .comparison-col.before { border-left: 3px solid var(--danger); }
+        .comparison-col.after { border-left: 3px solid var(--success); }
+        .comparison-col p {
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+        }
+        .error-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .error-table th {
+            text-align: left;
+            padding: 0.5rem;
+            background: var(--card);
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border);
+        }
+        .error-table td {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .error-before {
+            color: var(--danger);
+            text-decoration: line-through;
+        }
+        .error-after {
+            color: var(--success);
+            font-weight: 600;
+        }
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.2rem;
+        }
+        .achievement-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            text-align: center;
+        }
+        .achievement-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+        .achievement-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 12px rgba(192,86,33,0.3);
+        }
+        .achievement-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .achievement-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .edu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .edu-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .edu-card:hover { box-shadow: var(--shadow-lg); }
+        .edu-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .edu-card h4 {
+            font-size: 1.05rem;
+            margin-bottom: 0.3rem;
+        }
+        .edu-card .institution {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        .edu-card .year {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .cert-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+        .cert-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+        .cert-list li:last-child { border-bottom: none; }
+        .cert-list li i {
+            color: var(--success);
+            font-size: 0.8rem;
+        }
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: var(--radius-lg);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .contact-content {
+            position: relative;
+            z-index: 1;
+        }
+        .contact-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 0.8rem;
+        }
+        .contact-section p {
+            opacity: 0.85;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            font-size: 1.05rem;
+        }
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius);
+            text-decoration: none;
+            color: white;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .contact-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        .contact-item i { font-size: 1.1rem; }
+        .contact-item .label {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .contact-item .value {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .contact-item .info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .btn-contact {
+            padding: 1rem 2.5rem;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero-stats { gap: 1.5rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .about-highlights { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .timeline::before { left: 14px; }
+            .timeline-item { padding-left: 50px; }
+            .timeline-dot { left: 5px; width: 18px; height: 18px; }
+            .contact-grid { flex-direction: column; align-items: center; }
+            .contact-item { width: 100%; max-width: 300px; justify-content: center; }
+        }
+        @media print {
+            .navbar, .theme-toggle, .scroll-indicator, .hero-actions, .btn-contact {
+                display: none !important;
+            }
+            .hero { min-height: auto; padding: 2rem; }
+            .project-detail { max-height: none !important; }
+            body { background: white; }
+            .card, .timeline-card, .project-card { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <i class="fas fa-brain"></i>
+                EFB
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#contact" class="btn-nav">Hire Me</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-circle-check"></i>
+                Available for Remote Work
+            </div>
+            <h1>Emmanuel Femi <span class="highlight">Boluade</span></h1>
+            <p class="hero-subtitle">AI Evaluator &middot; Content Quality Analyst &middot; Technical Writer</p>
+            <p class="hero-tagline">Detail-oriented professional with 2+ years rating AI-generated content against detailed rubrics. Expert in identifying errors, hallucinations, and safety risks while delivering clear, constructive feedback.</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">2+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Core Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-folder-open"></i>
+                    View Portfolio
+                </a>
+                <a href="mailto:emma26jobs@gmail.com" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i>
+                    Get in Touch
+                </a>
+            </div>
+            <div class="hero-contact-bar">
+                <a href="mailto:emma26jobs@gmail.com" class="hero-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    emma26jobs@gmail.com
+                </a>
+                <a href="tel:+17739615144" class="hero-contact-item">
+                    <i class="fas fa-phone"></i>
+                    +1 (773) 961-5144
+                </a>
+                <span class="hero-contact-item">
+                    <i class="fas fa-location-dot"></i>
+                    Chicago, IL, USA
+                </span>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-header fade-in">
+            <span class="section-label">About Me</span>
+            <h2 class="section-title">Who I Am</h2>
+            <p class="section-desc">A dedicated professional bridging AI evaluation, technical writing, and content quality assurance.</p>
+        </div>
+        <div class="about-grid fade-in">
+            <div class="about-visual">
+                <div class="about-card">
+                    <div class="about-avatar">EF</div>
+                    <h3>Emmanuel Femi Boluade</h3>
+                    <p class="role">AI Evaluator &amp; Technical Writer</p>
+                    <div class="location">
+                        <i class="fas fa-location-dot"></i>
+                        Chicago, IL, USA
+                    </div>
+                    <div class="about-languages">
+                        <span class="lang-tag">English &mdash; Fluent</span>
+                        <span class="lang-tag">Yoruba &mdash; Fluent</span>
+                        <span class="lang-tag">Hausa &mdash; Fluent</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-text">
+                <p>I am a detail-oriented AI Evaluator and Technical Writer with over <strong>2 years of hands-on experience</strong> rating AI-generated content against detailed task guidelines. My expertise spans applying rubrics consistently, identifying errors and inconsistencies, and writing clear, constructive feedback that drives improvement.</p>
+                <p>My background bridges AI evaluation, technical writing, education, and administrative documentation &mdash; where I developed strong attention to detail, reliability, and the ability to follow precise procedures under time pressure. I am fluent in <strong>English, Yoruba, and Hausa</strong>, enabling me to evaluate multilingual content with cultural nuance.</p>
+                <div class="about-highlights">
+                    <div class="highlight-item">
+                        <div class="highlight-icon"><i class="fas fa-crosshairs"></i></div>
+                        <div>
+                            <h4>Rubric Precision</h4>
+                            <p>Consistent, objective scoring across thousands of evaluations</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"><i class="fas fa-shield-halved"></i></div>
+                        <div>
+                            <h4>Trust &amp; Safety</h4>
+                            <p>Expert at identifying harmful, misleading, or inappropriate content</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"><i class="fas fa-pen-nib"></i></div>
+                        <div>
+                            <h4>Technical Writing</h4>
+                            <p>Clear, structured explanations for technical and general audiences</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"><i class="fas fa-globe"></i></div>
+                        <div>
+                            <h4>Multilingual</h4>
+                            <p>Native fluency in 3 languages for diverse content evaluation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="section-header fade-in">
+            <span class="section-label">Core Competencies</span>
+            <h2 class="section-title">What I Do Best</h2>
+            <p class="section-desc">A comprehensive skill set honed through 2+ years of professional AI evaluation and content quality work.</p>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-robot"></i> AI Response Evaluation</span>
+                    <span class="skill-level">98%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 98%"></div></div>
+                <p class="skill-desc">Rating outputs for accuracy, clarity, relevance, tone, and safety against detailed guidelines.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-message"></i> Prompt Assessment</span>
+                    <span class="skill-level">95%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 95%"></div></div>
+                <p class="skill-desc">Evaluating prompt quality, clarity, and effectiveness for optimal AI performance.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-check-double"></i> Content Quality Assurance</span>
+                    <span class="skill-level">97%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 97%"></div></div>
+                <p class="skill-desc">Reviewing content for factual accuracy, grammar, consistency, and overall quality.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-pen-fancy"></i> Technical Writing</span>
+                    <span class="skill-level">94%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 94%"></div></div>
+                <p class="skill-desc">Writing clear, structured explanations and documentation for diverse audiences.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-magnifying-glass"></i> Fact Verification</span>
+                    <span class="skill-level">96%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 96%"></div></div>
+                <p class="skill-desc">Cross-checking claims against reliable sources to ensure factual integrity.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-spell-check"></i> Editing &amp; Proofreading</span>
+                    <span class="skill-level">98%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 98%"></div></div>
+                <p class="skill-desc">Correcting grammar, style, and clarity issues with meticulous attention to detail.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-list-check"></i> Rubric-based Scoring</span>
+                    <span class="skill-level">99%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 99%"></div></div>
+                <p class="skill-desc">Applying scoring criteria consistently and objectively across all evaluations.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-brain"></i> Hallucination Detection</span>
+                    <span class="skill-level">95%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 95%"></div></div>
+                <p class="skill-desc">Identifying fabricated or unsupported information in AI-generated outputs.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-shield-halved"></i> Trust &amp; Safety Review</span>
+                    <span class="skill-level">96%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 96%"></div></div>
+                <p class="skill-desc">Assessing content for harmful, misleading, or inappropriate material.</p>
+            </div>
+            <div class="skill-card fade-in">
+                <div class="skill-header">
+                    <span class="skill-name"><i class="fas fa-database"></i> Training Data QA</span>
+                    <span class="skill-level">93%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--width: 93%"></div></div>
+                <p class="skill-desc">Evaluating training data quality for AI model development and improvement.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="section-header fade-in">
+            <span class="section-label">Professional Experience</span>
+            <h2 class="section-title">Career Journey</h2>
+            <p class="section-desc">A track record of precision, reliability, and excellence across diverse professional environments.</p>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div>
+                            <div class="timeline-title">AI Evaluator &amp; Technical Writer</div>
+                            <div class="timeline-company">Outlier &mdash; Remote, Contract</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="timeline-badge"><i class="fas fa-star"></i> Current</span>
+                            <div class="timeline-meta"><i class="fas fa-calendar"></i> Jan 2024 &ndash; May 2026</div>
+                        </div>
+                    </div>
+                    <div class="timeline-desc">
+                        <ul>
+                            <li>Evaluated AI-generated responses against detailed task guidelines with consistent quality standards</li>
+                            <li>Rated outputs for accuracy, clarity, relevance, tone, and safety using structured rubrics</li>
+                            <li>Wrote and edited technical explanations and documentation for diverse audiences</li>
+                            <li>Maintained high accuracy standards across 2+ years of continuous evaluation work</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div>
+                            <div class="timeline-title">Material Handler</div>
+                            <div class="timeline-company">Richelieu Foods &mdash; Wheeling, IL</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="timeline-meta"><i class="fas fa-calendar"></i> 2022 &ndash; Present</div>
+                        </div>
+                    </div>
+                    <div class="timeline-desc">
+                        <ul>
+                            <li>Verified delivery documentation and inventory records with meticulous attention to detail</li>
+                            <li>Followed detailed safety and handling procedures precisely in a high-stakes environment</li>
+                            <li>Recognized for reliability, consistency, and procedural precision</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div>
+                            <div class="timeline-title">Teacher</div>
+                            <div class="timeline-company">N-POWER / Universal Basic Education &mdash; Kogi State, Nigeria</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="timeline-meta"><i class="fas fa-calendar"></i> Dec 2016 &ndash; 2019</div>
+                        </div>
+                    </div>
+                    <div class="timeline-desc">
+                        <ul>
+                            <li>Explained complex material clearly to diverse learners with varying backgrounds</li>
+                            <li>Maintained accurate records and documentation for student progress tracking</li>
+                            <li>Developed strong communication and instructional skills</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div>
+                            <div class="timeline-title">Administrative Assistant</div>
+                            <div class="timeline-company">Ministry of Women Affairs &mdash; Delta State, Nigeria (NYSC)</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="timeline-meta"><i class="fas fa-calendar"></i> 2010 &ndash; 2011</div>
+                        </div>
+                    </div>
+                    <div class="timeline-desc">
+                        <ul>
+                            <li>Managed official files and records with accuracy and strict confidentiality</li>
+                            <li>Developed strong organizational and documentation skills in a government setting</li>
+                            <li>Ensured compliance with administrative procedures and protocols</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projects">
+        <div class="section-header fade-in">
+            <span class="section-label">Selected Projects</span>
+            <h2 class="section-title">Portfolio Showcase</h2>
+            <p class="section-desc">Eight detailed projects demonstrating expertise across AI evaluation, technical writing, editing, and content quality assurance.</p>
+        </div>
+        <div class="projects-grid">
+
+            <div class="project-card fade-in" onclick="toggleProject(this)">
+                <div class="project-header">
+                    <span class="project-number">01</span>
+                    <div class="project-tags">
+                        <span class="project-tag accent">Rubric Scoring</span>
+                        <span class="project-tag">AI Evaluation</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <h3 class="project-title">AI Response Evaluation with Rubric Scoring</h3>
+                    <p class="project-desc">Evaluated an AI-generated response about exercise benefits using a structured 5-criteria rubric, providing detailed justification and constructive feedback.</p>
+                    <div class="project-preview">
+                        <div class="preview-label">Evaluation Preview</div>
+                        <table class="preview-table">
+                            <tr><th>Criteria</th><th>Score</th><th>Status</th></tr>
+                            <tr><td>Accuracy</td><td>5/5</td><td><span class="score-badge score-high"><i class="fas fa-check"></i> Excellent</span></td></tr>
+                            <tr><td>Completeness</td><td>4/5</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Good</span></td></tr>
+                            <tr><td>Clarity</td><td>5/5</td><td><span class="score-badge score-high"><i class="fas fa-check"></i> Excellent</span></td></tr>
+                            <tr><td>Relevance</td><td>5/5</td><td><span class="score-badge score-high"><i class="fas fa-check"></i> Excellent</span></td></tr>
+                            <tr><td>Tone</td><td>5/5</td><td><span class="score-badge score-high"><i class="fas fa-check"></i> Excellent</span></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-expand">View Full Details <i class="fas fa-arrow-right"></i></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">4.8/5 Overall</span>
+                </div>
+                <div class="project-detail">
+                    <div class="project-detail-inner">
+                        <div class="detail-section">
+                            <div class="detail-label">Objective</div>
+                            <p class="detail-text">Evaluate an AI-generated response to a user query and provide a score with detailed reasoning using a structured rubric.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">AI Query</div>
+                            <p class="detail-text" style="font-style: italic;">&ldquo;What are the benefits of regular exercise?&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">AI Response</div>
+                            <p class="detail-text">&ldquo;Regular exercise can help you lose weight, reduce stress, and improve your mood. It also helps prevent chronic diseases like diabetes and heart disease. You should aim for 30 minutes of exercise each day.&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Constructive Feedback</div>
+                            <p class="detail-text">&ldquo;This response is accurate, clear, and directly relevant to the user&rsquo;s query. However, it could be improved by adding a brief example of types of exercise (e.g., walking, strength training, swimming) and mentioning the recommended frequency (e.g., &rsquo;at least 5 days per week&rsquo;). Overall, this is a strong response.&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Lesson Learned</div>
+                            <p class="detail-text">Comprehensive responses should include both breadth (covering multiple aspects of the topic) and depth (providing actionable detail).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleProject(this)">
+                <div class="project-header">
+                    <span class="project-number">02</span>
+                    <div class="project-tags">
+                        <span class="project-tag accent">Technical Writing</span>
+                        <span class="project-tag">Documentation</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <h3 class="project-title">Technical Writing: How AI Evaluates Search Relevance</h3>
+                    <p class="project-desc">Created a clear, user-friendly explanation of a complex technical topic for a general audience, breaking down AI search relevance into 5 key factors.</p>
+                    <div class="project-preview">
+                        <div class="preview-label">Document Structure</div>
+                        <div class="preview-content">
+                            <strong>Key Factors Covered:</strong><br>
+                            1. Keyword Matching<br>
+                            2. User Intent Classification<br>
+                            3. Content Quality Assessment<br>
+                            4. Freshness &amp; Recency<br>
+                            5. User Engagement Signals
+                        </div>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-expand">View Full Details <i class="fas fa-arrow-right"></i></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">5 Sections</span>
+                </div>
+                <div class="project-detail">
+                    <div class="project-detail-inner">
+                        <div class="detail-section">
+                            <div class="detail-label">Objective</div>
+                            <p class="detail-text">Write a clear, user-friendly explanation of a complex technical topic for a general audience.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Document Excerpt</div>
+                            <p class="detail-text"><strong>How AI Evaluates Search Relevance</strong><br><br>
+                            <strong>Introduction</strong><br>
+                            When you type a query into a search engine, artificial intelligence works behind the scenes to determine which results are most helpful to you. This document explains the key factors AI uses to evaluate and rank search results.<br><br>
+                            <strong>1. Keyword Matching</strong><br>
+                            The AI looks for exact or related words from your query in the content. Example: If you search &ldquo;best laptop 2026,&rdquo; the AI will prioritize content containing these exact words or synonyms.<br><br>
+                            <strong>2. User Intent Classification</strong><br>
+                            The AI determines what you&rsquo;re actually trying to accomplish &mdash; Informational, Navigational, or Transactional.<br><br>
+                            <strong>3. Content Quality Assessment</strong><br>
+                            The AI evaluates whether the content is accurate, well-structured, and trustworthy.<br><br>
+                            <strong>4. Freshness &amp; Recency</strong><br>
+                            Newer content is prioritized for time-sensitive queries.<br><br>
+                            <strong>5. User Engagement Signals</strong><br>
+                            The AI learns from real user behavior, including click-through rates and dwell time.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Why This Works</div>
+                            <p class="detail-text">Uses simple, accessible language &middot; Breaks down complex concepts into clear steps &middot; Includes concrete examples &middot; Maintains a professional, authoritative tone</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleProject(this)">
+                <div class="project-header">
+                    <span class="project-number">03</span>
+                    <div class="project-tags">
+                        <span class="project-tag accent">Editing</span>
+                        <span class="project-tag">Proofreading</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <h3 class="project-title">Editing &amp; Proofreading Showcase</h3>
+                    <p class="project-desc">Demonstrated ability to identify and correct 8 distinct errors in a formal business communication, including spelling, grammar, punctuation, and article usage.</p>
+                    <div class="project-preview">
+                        <div class="preview-label">Error Summary</div>
+                        <div class="preview-content">
+                            <strong>8 errors identified &amp; corrected:</strong><br>
+                            Article usage &middot; Spelling (4) &middot; Punctuation &middot; Grammar<br>
+                            <span style="color: var(--success); font-weight: 600;">100% detection rate</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-expand">View Full Details <i class="fas fa-arrow-right"></i></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">8 Errors Fixed</span>
+                </div>
+                <div class="project-detail">
+                    <div class="project-detail-inner">
+                        <div class="detail-section">
+                            <div class="detail-label">Objective</div>
+                            <p class="detail-text">Demonstrate ability to identify and correct errors in written content.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Before vs. After</div>
+                            <div class="comparison-grid">
+                                <div class="comparison-col before">
+                                    <h5>Before (Original)</h5>
+                                    <p>&ldquo;This is a important announcement regarding our upcoming meeting. The meeting will be held on Tuesday Febuary 15th at 3pm. Please ensure your avalible to attend. We will discus the new project timeline and address any conserns. Your feedback is valueble and we encourage you to share your thoughts. If you have any questions, dont hesitate to reach out.&rdquo;</p>
+                                </div>
+                                <div class="comparison-col after">
+                                    <h5>After (Corrected)</h5>
+                                    <p>&ldquo;This is an important announcement regarding our upcoming meeting. The meeting will be held on Tuesday, February 15th, at 3:00 PM. Please ensure you are available to attend. We will discuss the new project timeline and address any concerns. Your feedback is valuable, and we encourage you to share your thoughts. If you have any questions, please do not hesitate to reach out.&rdquo;</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Error Tracking</div>
+                            <table class="error-table">
+                                <tr><th>Issue</th><th>Before</th><th>After</th></tr>
+                                <tr><td>Article usage</td><td class="error-before">a important</td><td class="error-after">an important</td></tr>
+                                <tr><td>Spelling</td><td class="error-before">Febuary</td><td class="error-after">February</td></tr>
+                                <tr><td>Punctuation</td><td class="error-before">15th at 3pm</td><td class="error-after">15th, at 3:00 PM</td></tr>
+                                <tr><td>Spelling</td><td class="error-before">avalible</td><td class="error-after">available</td></tr>
+                                <tr><td>Spelling</td><td class="error-before">discus</td><td class="error-after">discuss</td></tr>
+                                <tr><td>Spelling</td><td class="error-before">conserns</td><td class="error-after">concerns</td></tr>
+                                <tr><td>Spelling</td><td class="error-before">valueble</td><td class="error-after">valuable</td></tr>
+                                <tr><td>Grammar</td><td class="error-before">dont hesitate</td><td class="error-after">do not hesitate</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleProject(this)">
+                <div class="project-header">
+                    <span class="project-number">04</span>
+                    <div class="project-tags">
+                        <span class="project-tag accent">QA Report</span>
+                        <span class="project-tag">Fact-Checking</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <h3 class="project-title">Content Quality Review &amp; QA Report</h3>
+                    <p class="project-desc">Identified and documented factual errors in AI-generated content about Australia using a structured QA format, then provided a corrected version.</p>
+                    <div class="project-preview">
+                        <div class="preview-label">QA Findings</div>
+                        <table class="preview-table">
+                            <tr><th>Metric</th><th>Severity</th><th>Status</th></tr>
+                            <tr><td>Factual Accuracy</td><td>High</td><td><span class="score-badge score-low"><i class="fas fa-xmark"></i> Error Found</span></td></tr>
+                            <tr><td>Content Depth</td><td>Medium</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Needs Work</span></td></tr>
+                            <tr><td>Clarity</td><td>Low</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Minor Issue</span></td></tr>
+                            <tr><td>Completeness</td><td>Medium</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Needs Work</span></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-expand">View Full Details <i class="fas fa-arrow-right"></i></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">4 Issues</span>
+                </div>
+                <div class="project-detail">
+                    <div class="project-detail-inner">
+                        <div class="detail-section">
+                            <div class="detail-label">Objective</div>
+                            <p class="detail-text">Identify and document errors in AI-generated content using a structured QA format.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Content Reviewed</div>
+                            <p class="detail-text">&ldquo;The capital of Australia is Sydney. It is known for its beautiful beaches and vibrant culture. The population of Australia is approximately 25 million. Sydney Opera House is one of the most famous landmarks in the world.&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">QA Report</div>
+                            <table class="error-table">
+                                <tr><th>Metric</th><th>Evidence</th><th>Severity</th><th>Action Required</th></tr>
+                                <tr><td>Factual Accuracy</td><td>States &ldquo;Sydney&rdquo; is the capital</td><td class="error-before">High</td><td class="error-after">Correct to &ldquo;Canberra&rdquo;</td></tr>
+                                <tr><td>Content Depth</td><td>Lacks details about Canberra</td><td class="error-before">Medium</td><td class="error-after">Add brief context</td></tr>
+                                <tr><td>Clarity</td><td>&ldquo;Beautiful beaches&rdquo; is vague</td><td class="error-before">Low</td><td class="error-after">Provide specifics or remove</td></tr>
+                                <tr><td>Completeness</td><td>No mention of government/politics</td><td class="error-before">Medium</td><td class="error-after">Add context</td></tr>
+                            </table>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Corrected Version</div>
+                            <p class="detail-text">&ldquo;The capital of Australia is Canberra. It is known for its planned layout, national monuments, and cultural institutions, including the Australian War Memorial and Parliament House. The population of Australia is approximately 25 million. Sydney Opera House, located in Sydney, is one of the most famous landmarks in the world.&rdquo;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section id="projects">
+        <div class="projects-grid">
+
+            <div class="project-card fade-in" onclick="toggleProject(this)">
+                <div class="project-header">
+                    <span class="project-number">05</span>
+                    <div class="project-tags">
+                        <span class="project-tag accent">Prompt Engineering</span>
+                        <span class="project-tag">Evaluation</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <h3 class="project-title">Prompt Engineering Evaluation</h3>
+                    <p class="project-desc">Evaluated a prompt-engineering example and provided actionable feedback to improve clarity, length specification, and structure guidance.</p>
+                    <div class="project-preview">
+                        <div class="preview-label">Prompt Score</div>
+                        <table class="preview-table">
+                            <tr><th>Criteria</th><th>Score</th><th>Status</th></tr>
+                            <tr><td>Clarity</td><td>5/5</td><td><span class="score-badge score-high"><i class="fas fa-check"></i> Excellent</span></td></tr>
+                            <tr><td>Audience Definition</td><td>5/5</td><td><span class="score-badge score-high"><i class="fas fa-check"></i> Excellent</span></td></tr>
+                            <tr><td>Length Specification</td><td>3/5</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Needs Work</span></td></tr>
+                            <tr><td>Structure Guidance</td><td>3/5</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Needs Work</span></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-expand">View Full Details <i class="fas fa-arrow-right"></i></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">4.2/5 Overall</span>
+                </div>
+                <div class="project-detail">
+                    <div class="project-detail-inner">
+                        <div class="detail-section">
+                            <div class="detail-label">Objective</div>
+                            <p class="detail-text">Evaluate a prompt-engineering example and provide actionable feedback.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Original Prompt</div>
+                            <p class="detail-text">&ldquo;Write a brief summary of climate change for a general audience.&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Suggested Improved Prompt</div>
+                            <p class="detail-text">&ldquo;Write a 3-4 sentence summary of climate change for a general audience. Explain what causes it, its main effects, and one action individuals can take to help. Keep the tone informative and neutral.&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Comparison</div>
+                            <table class="error-table">
+                                <tr><th>Aspect</th><th>Original</th><th>Improved</th></tr>
+                                <tr><td>Length</td><td class="error-before">Not specified</td><td class="error-after">3-4 sentences</td></tr>
+                                <tr><td>Content</td><td class="error-before">General summary</td><td class="error-after">Causes, effects, action</td></tr>
+                                <tr><td>Structure</td><td class="error-before">Not specified</td><td class="error-after">Clear components</td></tr>
+                                <tr><td>Tone</td><td class="error-before">Not specified</td><td class="error-after">Informative, neutral</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleProject(this)">
+                <div class="project-header">
+                    <span class="project-number">06</span>
+                    <div class="project-tags">
+                        <span class="project-tag accent">Hallucination</span>
+                        <span class="project-tag">Fact-Checking</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <h3 class="project-title">Hallucination Detection &amp; Fact-Checking</h3>
+                    <p class="project-desc">Identified and documented fabricated information in an AI response about the Sahara Desert, including a critical hallucination about Marco Polo.</p>
+                    <div class="project-preview">
+                        <div class="preview-label">Fact-Check Results</div>
+                        <table class="preview-table">
+                            <tr><th>Claim</th><th>Status</th></tr>
+                            <tr><td>Sahara is world's largest desert</td><td><span class="score-badge score-med">Partially True</span></td></tr>
+                            <tr><td>14 million sq km</td><td><span class="score-badge score-med">Partially True</span></td></tr>
+                            <tr><td>Discovered by Marco Polo</td><td><span class="score-badge score-low"><i class="fas fa-xmark"></i> Hallucination</span></td></tr>
+                            <tr><td>Over 10,000 species</td><td><span class="score-badge score-med">Unverified</span></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-expand">View Full Details <i class="fas fa-arrow-right"></i></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">1 Critical</span>
+                </div>
+                <div class="project-detail">
+                    <div class="project-detail-inner">
+                        <div class="detail-section">
+                            <div class="detail-label">Objective</div>
+                            <p class="detail-text">Identify and document fabricated or unsupported information in AI-generated content.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Sample AI Response</div>
+                            <p class="detail-text">&ldquo;The world's largest desert is the Sahara Desert, which covers approximately 14 million square kilometers. It was discovered by the famous explorer Marco Polo in 1295. The desert is home to over 10,000 different species of plants and animals.&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hallucination Documentation</div>
+                            <table class="error-table">
+                                <tr><th>Issue Type</th><th>Evidence</th><th>Severity</th><th>Action</th></tr>
+                                <tr><td>Hallucination</td><td>Marco Polo discovered the Sahara</td><td class="error-before">Critical</td><td class="error-after">Remove entirely</td></tr>
+                                <tr><td>Inaccuracy</td><td>14 million sq km overestimate</td><td class="error-before">High</td><td class="error-after">Correct to ~9.2M</td></tr>
+                                <tr><td>Vague Claim</td><td>&ldquo;Over 10,000 species&rdquo;</td><td class="error-before">Medium</td><td class="error-after">Verify and correct</td></tr>
+                            </table>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Corrected Version</div>
+                            <p class="detail-text">&ldquo;The Sahara Desert is one of the largest deserts in the world, covering approximately 9.2 million square kilometers. It has been known to civilizations for thousands of years and supports a diverse ecosystem adapted to its harsh conditions.&rdquo;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleProject(this)">
+                <div class="project-header">
+                    <span class="project-number">07</span>
+                    <div class="project-tags">
+                        <span class="project-tag accent">Trust &amp; Safety</span>
+                        <span class="project-tag">Misinformation</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <h3 class="project-title">Trust &amp; Safety Content Review</h3>
+                    <p class="project-desc">Assessed AI-generated content for harmful, misleading vaccine misinformation and provided a comprehensive Trust &amp; Safety report with recommended actions.</p>
+                    <div class="project-preview">
+                        <div class="preview-label">Risk Assessment</div>
+                        <table class="preview-table">
+                            <tr><th>Criteria</th><th>Assessment</th></tr>
+                            <tr><td>Accuracy</td><td><span class="score-badge score-low">False/Unsubstantiated</span></td></tr>
+                            <tr><td>Harmfulness</td><td><span class="score-badge score-low">Harmful</span></td></tr>
+                            <tr><td>Misleading</td><td><span class="score-badge score-low">Highly Misleading</span></td></tr>
+                            <tr><td>Trustworthiness</td><td><span class="score-badge score-low">Untrustworthy</span></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-expand">View Full Details <i class="fas fa-arrow-right"></i></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">Flagged</span>
+                </div>
+                <div class="project-detail">
+                    <div class="project-detail-inner">
+                        <div class="detail-section">
+                            <div class="detail-label">Objective</div>
+                            <p class="detail-text">Assess AI-generated content for harmful, misleading, or inappropriate material.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Content Reviewed</div>
+                            <p class="detail-text">&ldquo;The new vaccine causes severe side effects in over 50% of patients. Many doctors are refusing to recommend it. The government is covering up the truth about how dangerous it really is. You should avoid this vaccine at all costs.&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Trust &amp; Safety Report</div>
+                            <table class="error-table">
+                                <tr><th>Metric</th><th>Evidence</th><th>Severity</th><th>Action</th></tr>
+                                <tr><td>Misinformation</td><td>Claims 50% severe side effects</td><td class="error-before">Critical</td><td class="error-after">Flag as misinformation</td></tr>
+                                <tr><td>Harmful Content</td><td>Encourages vaccine avoidance</td><td class="error-before">Critical</td><td class="error-after">Block or flag for review</td></tr>
+                                <tr><td>Misleading Tone</td><td>&ldquo;Government covering up the truth&rdquo;</td><td class="error-before">High</td><td class="error-after">Flag for factual review</td></tr>
+                                <tr><td>Source Verification</td><td>No sources provided</td><td class="error-before">High</td><td class="error-after">Request sources</td></tr>
+                            </table>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Recommended Action</div>
+                            <p class="detail-text">This response should be flagged and not published. It contains unsubstantiated medical claims that could cause harm and encourages dangerous behavior.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleProject(this)">
+                <div class="project-header">
+                    <span class="project-number">08</span>
+                    <div class="project-tags">
+                        <span class="project-tag accent">Training Data</span>
+                        <span class="project-tag">QA</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <h3 class="project-title">Content Quality Assurance for Training Data</h3>
+                    <p class="project-desc">Evaluated the quality of informal training data for AI models, balancing real-world language variation against clarity and objectivity needs.</p>
+                    <div class="project-preview">
+                        <div class="preview-label">Quality Assessment</div>
+                        <table class="preview-table">
+                            <tr><th>Criteria</th><th>Score</th><th>Status</th></tr>
+                            <tr><td>Clarity</td><td>4/5</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Good</span></td></tr>
+                            <tr><td>Grammar</td><td>4/5</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Good</span></td></tr>
+                            <tr><td>Usefulness</td><td>5/5</td><td><span class="score-badge score-high"><i class="fas fa-check"></i> Excellent</span></td></tr>
+                            <tr><td>Objectivity</td><td>3/5</td><td><span class="score-badge score-med"><i class="fas fa-minus"></i> Needs Work</span></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-expand">View Full Details <i class="fas fa-arrow-right"></i></span>
+                    <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">4.2/5 Overall</span>
+                </div>
+                <div class="project-detail">
+                    <div class="project-detail-inner">
+                        <div class="detail-section">
+                            <div class="detail-label">Objective</div>
+                            <p class="detail-text">Evaluate the quality of training data used to develop AI models.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Training Data Reviewed</div>
+                            <p class="detail-text">&ldquo;The concert was lit. The venue was packed. The music was fire. Everyone was vibing.&rdquo;</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Quality Feedback</div>
+                            <p class="detail-text">This text is useful for AI training because it represents real-world, conversational language. However, it contains informal expressions (&ldquo;lit,&rdquo; &ldquo;fire,&rdquo; &ldquo;vibing&rdquo;) that may need to be labeled or explained for AI training purposes. I recommend including it with appropriate labels for informality and tone.</p>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Suggested Improvements</div>
+                            <table class="error-table">
+                                <tr><th>Aspect</th><th>Original</th><th>Suggested</th></tr>
+                                <tr><td>Clarity</td><td class="error-before">&ldquo;The concert was lit&rdquo;</td><td class="error-after">&ldquo;The concert was very exciting&rdquo;</td></tr>
+                                <tr><td>Specificity</td><td class="error-before">&ldquo;The music was fire&rdquo;</td><td class="error-after">&ldquo;The music was excellent&rdquo;</td></tr>
+                                <tr><td>Description</td><td class="error-before">&ldquo;Everyone was vibing&rdquo;</td><td class="error-after">&ldquo;Everyone was enjoying themselves&rdquo;</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="achievements">
+        <div class="section-header fade-in">
+            <span class="section-label">Key Achievements</span>
+            <h2 class="section-title">What I Have Accomplished</h2>
+            <p class="section-desc">A record of excellence, reliability, and continuous improvement across every role.</p>
+        </div>
+        <div class="achievements-grid">
+            <div class="achievement-card fade-in">
+                <div class="achievement-icon"><i class="fas fa-bullseye"></i></div>
+                <h4>High Accuracy Standards</h4>
+                <p>Maintained consistent quality across 2+ years of AI evaluation work with meticulous attention to detail.</p>
+            </div>
+            <div class="achievement-card fade-in">
+                <div class="achievement-icon"><i class="fas fa-award"></i></div>
+                <h4>Reliability Record</h4>
+                <p>Recognized for consistency and dependability in operational roles requiring procedural precision.</p>
+            </div>
+            <div class="achievement-card fade-in">
+                <div class="achievement-icon"><i class="fas fa-clipboard-check"></i></div>
+                <h4>Procedural Precision</h4>
+                <p>Followed detailed guidelines in high-stakes environments with zero compliance issues.</p>
+            </div>
+            <div class="achievement-card fade-in">
+                <div class="achievement-icon"><i class="fas fa-file-shield"></i></div>
+                <h4>Documentation Excellence</h4>
+                <p>Managed sensitive records with accuracy and confidentiality in government and private settings.</p>
+            </div>
+            <div class="achievement-card fade-in">
+                <div class="achievement-icon"><i class="fas fa-language"></i></div>
+                <h4>Multilingual Capabilities</h4>
+                <p>Fluent in English, Yoruba, and Hausa &mdash; enabling nuanced evaluation of diverse content.</p>
+            </div>
+            <div class="achievement-card fade-in">
+                <div class="achievement-icon"><i class="fas fa-shield-halved"></i></div>
+                <h4>Trust &amp; Safety Expertise</h4>
+                <p>Assessed content for harmful and misleading information with critical judgment and speed.</p>
+            </div>
+            <div class="achievement-card fade-in">
+                <div class="achievement-icon"><i class="fas fa-database"></i></div>
+                <h4>Training Data QA</h4>
+                <p>Evaluated training data quality for AI model development, improving dataset integrity.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <div class="section-header fade-in">
+            <span class="section-label">Education &amp; Certifications</span>
+            <h2 class="section-title">Academic Background</h2>
+            <p class="section-desc">A foundation in language, communication, and analytical thinking that supports every evaluation I make.</p>
+        </div>
+        <div class="edu-grid">
+            <div class="edu-card fade-in">
+                <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h4>Bachelor of Arts (B.A.) in English</h4>
+                <p class="institution">University of Abuja</p>
+                <p class="year">2008</p>
+            </div>
+            <div class="edu-card fade-in">
+                <div class="edu-icon"><i class="fas fa-school"></i></div>
+                <h4>Senior School Certificate</h4>
+                <p class="institution">Saint Bartholomew's Secondary School, Zaria</p>
+                <p class="year">1996 &ndash; 2002</p>
+            </div>
+            <div class="edu-card fade-in">
+                <div class="edu-icon"><i class="fas fa-certificate"></i></div>
+                <h4>Professional Certifications</h4>
+                <ul class="cert-list">
+                    <li><i class="fas fa-check-circle"></i> N-POWER Teacher Training Program &mdash; Federal Government of Nigeria</li>
+                    <li><i class="fas fa-check-circle"></i> NYSC Orientation &amp; Administrative Training</li>
+                    <li><i class="fas fa-check-circle"></i> Outlier AI Evaluation Training (On-the-job)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="contact-section fade-in">
+            <div class="contact-content">
+                <h2>Let's Work Together</h2>
+                <p>I am available for immediate remote work. Whether you need AI evaluation, content quality review, or technical writing, I am ready to deliver excellence.</p>
+                <div class="contact-grid">
+                    <a href="mailto:emma26jobs@gmail.com" class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="info">
+                            <span class="label">Email</span>
+                            <span class="value">emma26jobs@gmail.com</span>
+                        </div>
+                    </a>
+                    <a href="tel:+17739615144" class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div class="info">
+                            <span class="label">Phone</span>
+                            <span class="value">+1 (773) 961-5144</span>
+                        </div>
+                    </a>
+                    <div class="contact-item">
+                        <i class="fas fa-location-dot"></i>
+                        <div class="info">
+                            <span class="label">Location</span>
+                            <span class="value">Chicago, IL, USA</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="mailto:emma26jobs@gmail.com" class="btn-contact">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Me an Email
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Emmanuel Femi Boluade. All rights reserved. | AI Evaluator &amp; Technical Writer</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">References available upon request.</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        (function() {
+            const saved = localStorage.getItem('theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+                const icon = document.querySelector('.theme-toggle i');
+                icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        })();
+        function toggleProject(card) {
+            const detail = card.querySelector('.project-detail');
+            const expand = card.querySelector('.project-expand');
+            const isOpen = detail.classList.contains('open');
+            document.querySelectorAll('.project-detail.open').forEach(d => {
+                if (d !== detail) d.classList.remove('open');
+            });
+            document.querySelectorAll('.project-expand').forEach(e => {
+                if (e !== expand) e.innerHTML = 'View Full Details <i class="fas fa-arrow-right"></i>';
+            });
+            if (isOpen) {
+                detail.classList.remove('open');
+                expand.innerHTML = 'View Full Details <i class="fas fa-arrow-right"></i>';
+            } else {
+                detail.classList.add('open');
+                expand.innerHTML = 'Hide Details <i class="fas fa-arrow-up"></i>';
+            }
+        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.classList.contains('skill-card')) {
+                        entry.target.classList.add('visible');
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in, .skill-card').forEach(el => observer.observe(el));
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '64px';
+            navLinks.style.left = '0';
+            navLinks.style.right = '0';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.background = 'var(--card)';
+            navLinks.style.padding = '1rem 2rem';
+            navLinks.style.boxShadow = 'var(--shadow-lg)';
+            navLinks.style.borderBottom = '1px solid var(--border)';
+            navLinks.style.gap = '1rem';
+        }
+    </script>
+</body>
+</html>
